@@ -1,35 +1,35 @@
 {
-	"name": "@coffic/image",
-	"version": "0.0.0",
-	"private": true,
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js",
-			"require": "./dist/index.js"
-		},
-		"./imageEdit": {
-			"types": "./dist/imageEdit/index.d.ts",
-			"import": "./dist/imageEdit/index.js",
-			"require": "./dist/imageEdit/index.js"
-		},
-		"./text2image": {
-			"types": "./dist/text2image/index.d.ts",
-			"import": "./dist/text2image/index.js",
-			"require": "./dist/text2image/index.js"
-		}
-	},
-	"scripts": {
-		"type-check": "tsc --noEmit",
-		"build": "tsc -p tsconfig.build.json",
-		"dev": "pnpm --filter example dev"
-	},
-	"dependencies": {
-		"zod": "^3.25.76"
-	},
-	"devDependencies": {
-		"typescript": "5.8.3"
-	}
+  "name": "@coffic/image",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./imageEdit": {
+      "types": "./dist/imageEdit/index.d.ts",
+      "import": "./dist/imageEdit/index.js",
+      "require": "./dist/imageEdit/index.js"
+    },
+    "./text2image": {
+      "types": "./dist/text2image/index.d.ts",
+      "import": "./dist/text2image/index.js",
+      "require": "./dist/text2image/index.js"
+    }
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "pnpm --filter example dev"
+  },
+  "dependencies": {
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3"
+  }
 }
