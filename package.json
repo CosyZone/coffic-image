@@ -1,36 +1,22 @@
 {
-  "name": "coffic-mcp-monorepo",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Coff IC MCP 单体仓库",
-  "scripts": {
-    "dev": "pnpm --parallel --filter '*' dev",
-    "dev:tool": "cd packages/coffic-tool && pnpm dev",
-    "dev:mcp": "cd packages/coffic-mcp && pnpm dev",
-    "build:mcp": "cd packages/coffic-mcp && pnpm build",
-    "build:tool": "cd packages/coffic-tool && pnpm build",
-    "build": "pnpm --filter '*' build",
-    "inspect": "cd packages/coffic-mcp && pnpm inspect",
-    "clean": "pnpm --filter '*' clean",
-    "install:all": "pnpm install",
-    "test": "pnpm --filter '*' test",
-    "type-check": "pnpm --filter '*' type-check",
-    "up:tool": "cd packages/coffic-tool && pnpm up",
-    "up:mcp": "cd packages/coffic-mcp && pnpm up",
-    "lint": "biome lint ./packages",
-    "lint:fix": "biome lint ./packages --write",
-    "format": "biome format ./packages --write",
-    "check": "biome check ./packages",
-    "check:fix": "biome check ./packages --write",
-    "ci": "biome ci ./packages",
-    "format:check": "biome format ./src",
-    "lint:unsafe": "biome lint ./src --unsafe",
-    "format:unsafe": "biome format ./src --unsafe --write",
-    "depcheck": "depcheck"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.6",
-    "typescript": "5.8.3"
-  },
-  "packageManager": "pnpm@10.18.3"
+	"name": "@coffic/image",
+	"version": "0.0.0",
+	"private": true,
+	"main": "index.ts",
+	"types": "index.ts",
+	"exports": {
+		".": "./index.ts",
+		"./imageEdit": "./imageEdit/index.ts",
+		"./text2image": "./text2image/index.ts"
+	},
+	"scripts": {
+		"type-check": "tsc --noEmit",
+		"dev": "pnpm --filter coffic-tool dev"
+	},
+	"dependencies": {
+		"zod": "^3.25.76"
+	},
+	"devDependencies": {
+		"typescript": "5.8.3"
+	}
 }
