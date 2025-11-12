@@ -1,0 +1,205 @@
+---
+alwaysApply: false
+description: Markdown code blocks must specify language for syntax highlighting and linting compliance (MD040 rule)
+globs: *.md,*.mdx
+---
+
+# Markdown 代码块语言规范
+
+## 规则要求
+
+所有 Markdown 文件中的代码块都必须指定语言标识符：
+
+### ✅ 正确示例
+
+````markdown
+```bash
+# 这是正确的 bash 代码块
+pnpm install
+```
+
+```typescript
+// 这是正确的 TypeScript 代码块
+const apiKey = env.DASHSCOPE_API_KEY;
+```
+
+```json
+{
+  "name": "example",
+  "version": "1.0.0"
+}
+```
+
+```text
+# 无语法高亮的纯文本块
+project/
+├── src/
+└── package.json
+```
+````
+
+### ❌ 错误示例
+
+````markdown
+```  // 错误：缺少语言标识符
+# 这会导致 MD040 错误
+pnpm install
+```
+
+```   // 错误：只有空白符
+const apiKey = "test";
+```
+````
+
+## 语言选择指南
+
+- **Shell/Bash 命令**: 使用 `bash`
+- **TypeScript/JavaScript**: 使用 `typescript` 或 `javascript`
+- **JSON/YAML**: 使用 `json` 或 `yaml`
+- **目录结构/纯文本**: 使用 `text`
+- **配置文件**: 使用具体的格式如 `json`, `yaml`, `toml`
+- **SQL 查询**: 使用 `sql`
+- **HTML/CSS**: 使用 `html` 或 `css`
+
+## 自动化修复
+
+当遇到没有语言标识符的代码块时：
+
+1. 分析代码内容推断合适的语言
+2. 为代码块添加适当的语言标识符
+3. 确保符合项目编码规范
+
+## MD040 错误详情
+
+**MD040/fenced-code-language**: Fenced code blocks should have a language specified
+
+### 错误原因
+- 代码块使用三个反引号但没有指定语言标识符
+- 违反了 markdownlint 的 MD040 规则
+
+### 影响
+- 无法获得正确的语法高亮
+- 影响代码可读性
+- 可能导致 linting 工具报错
+
+## 验证工具
+
+使用以下工具验证代码块语言规范：
+
+```bash
+# 使用 markdownlint 检查
+markdownlint "**/*.md" "**/*.mdx"
+
+# 或使用特定规则检查
+markdownlint --rules MD040 "**/*.md" "**/*.mdx"
+
+# 在项目中运行
+pnpm lint:md  # 如果配置了相应的脚本
+```
+
+## 常见错误及解决方案
+
+| 错误类型 | 原因 | 解决方案 |
+|---------|------|----------|
+| MD040 | 代码块缺少语言标识符 | 添加适当的语言标识符 |
+| 语法高亮不正确 | 语言标识符错误 | 修正为正确的语言标识符 |
+| 纯文本显示为代码 | 使用了错误的标识符 | 改为 `text` 或移除代码块格式 |
+
+## 实际修复示例
+
+### 修复前（MD040 错误）
+
+````markdown
+这是一个错误的代码块：
+
+```  // ❌ 缺少语言标识符
+const apiKey = "your-api-key";
+console.log("Hello World");
+```
+
+### 修复后（符合规范）
+
+````markdown
+这是正确的代码块：
+
+```javascript  // ✅ 指定了语言标识符
+const apiKey = "your-api-key";
+console.log("Hello World");
+```
+
+## 批量修复工具
+
+### 使用 sed 命令修复
+
+```bash
+# 查找所有空的代码块开头
+grep -r "^\`\`\`$" --include="*.md" --include="*.mdx" .
+
+# 批量添加语言标识符（需要谨慎使用）
+find . -name "*.md" -o -name "*.mdx" | xargs sed -i 's/^\`\`\`$/```text/g'
+```
+
+### 使用脚本修复
+
+```bash
+#!/bin/bash
+# fix-md040.sh - 修复 MD040 错误的脚本
+
+for file in $(find . -name "*.md" -o -name "*.mdx"); do
+  # 查找空的代码块并替换为 text
+  sed -i 's/^\`\`\`$/```text/g' "$file"
+  echo "Fixed: $file"
+done
+
+echo "MD040 错误修复完成"
+```
+
+## 自动化检查
+
+### 在 CI/CD 中集成
+
+```yaml
+# .github/workflows/markdown-lint.yml
+name: Markdown Lint
+on: [push, pull_request]
+
+jobs:
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm install -g markdownlint-cli
+      - run: markdownlint "**/*.md" "**/*.mdx" --rules MD040
+```
+
+## 最佳实践
+
+1. **始终指定语言**: 为所有代码块指定适当的语言标识符
+2. **使用正确标识符**: 参考上面的语言选择指南
+3. **定期检查**: 在代码审查和提交前运行 markdownlint
+4. **配置编辑器**: 在 VS Code 等编辑器中配置自动检测
+5. **团队规范**: 将此规则纳入团队编码规范
+
+## 相关工具和资源
+
+- [markdownlint](https://github.com/DavidAnson/markdownlint)
+- [markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)
+- [MD040 规则文档](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md040)
+- [CommonMark 规范](https://spec.commonmark.org/0.30/#fenced-code-blocks)
+
+## 实施步骤
+
+1. **识别问题**: 使用 markdownlint 或类似工具扫描文件
+2. **分析内容**: 确定每段代码的正确语言类型
+3. **应用修复**: 为每个代码块添加合适的语言标识符
+4. **验证结果**: 重新运行检查确保通过
+
+## 维护建议
+
+- 定期检查 markdownlint 结果
+- 新增代码块时立即指定语言
+- 团队代码审查时包含语言规范检查
+- 考虑在 CI/CD 流程中集成 markdownlint 检查

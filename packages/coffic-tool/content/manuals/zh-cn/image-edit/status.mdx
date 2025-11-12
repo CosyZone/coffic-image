@@ -1,0 +1,70 @@
+---
+title: '任务状态'
+description: '查询图像编辑任务的执行状态和结果'
+folder: false
+order: 3
+---
+
+# 任务状态
+
+import { CodeExample } from '@coffic/cosy-ui';
+
+`imageedit_status` 工具用于查询图像编辑任务的执行状态，获取任务进度和最终结果。
+
+## 使用方法
+
+```typescript
+// 查询任务状态
+imageedit_status({
+  taskId: "task_1234567890"
+})
+```text
+
+## 参数说明
+
+| 参数 | 类型 | 必需 | 描述 |
+|------|------|------|------|
+| `taskId` | string | ✅ | 图像编辑任务的任务ID |
+| `dashScopeApiKey` | string | ❌ | DashScope API密钥 |
+
+## 任务状态类型
+
+### 1. 等待中 (`PENDING`)
+任务已提交，正在等待执行。
+
+### 2. 执行中 (`RUNNING`)
+任务正在执行中，请耐心等待。
+
+### 3. 成功 (`SUCCEEDED`)
+任务执行成功，可以获取生成的图片。
+
+### 4. 失败 (`FAILED`)
+任务执行失败，可以查看错误信息。
+
+### 5. 已取消 (`CANCELLED`)
+任务已被取消。
+
+## 返回结果示例
+
+### 成功状态
+```json
+{
+  "status": "SUCCEEDED",
+  "taskId": "task_1234567890",
+  "result": {
+    "images": [
+      "https://example.com/generated_image_1.jpg",
+      "https://example.com/generated_image_2.jpg"
+    ]
+  }
+}
+```text
+
+### 失败状态
+```json
+{
+  "status": "FAILED",
+  "taskId": "task_1234567890",
+  "error": "图片处理失败：不支持的文件格式"
+}
+```text

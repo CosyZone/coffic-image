@@ -1,0 +1,93 @@
+---
+// 这个组件用于查询所有支持的图像编辑功能
+import { Button, Container } from "@coffic/cosy-ui";
+---
+
+<Container ignore-heading>
+  <Button id="getAllCapabilities">查询所有功能</Button>
+  <Container id="allCapabilitiesResult" />
+</Container>
+
+<script>
+  import { actions } from 'astro:actions';
+
+  // 定义类型
+  interface ApiResult {
+    success: boolean;
+    message: string;
+    data: {
+      capabilities: string[];
+      total: number;
+    };
+    error?: string;
+  }
+
+  document
+    .getElementById('getAllCapabilities')
+    ?.addEventListener('click', async () => {
+      const resultArea = document.getElementById('allCapabilitiesResult');
+      if (!resultArea) return;
+
+      resultArea.innerHTML = '<p>查询中...</p>';
+
+      try {
+        const { data, error } = await actions.getImageEditCapabilities({});
+
+        if (error) {
+          resultArea.innerHTML = `<div class="error-result">查询失败: ${error.message}</div>`;
+          return;
+        }
+
+        if (data) {
+          const result = data as ApiResult;
+          const capabilities = result.data.capabilities || [];
+          const capabilitiesHtml = capabilities
+            .map((cap: string) => `<div class="capability-tag">${cap}</div>`)
+            .join('');
+
+          resultArea.innerHTML = `
+          <div class="success-result">
+            <h4>查询成功 (共${result.data.total || 0}个功能)</h4>
+            <div class="capabilities-list">
+              ${capabilitiesHtml}
+            </div>
+          </div>
+        `;
+        }
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : '未知错误';
+        resultArea.innerHTML = `<div class="error-result">查询出错: ${errorMessage}</div>`;
+      }
+    });
+</script>
+
+<style>
+  .success-result {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+  }
+
+  .error-result {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+  }
+
+  .capabilities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .capability-tag {
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,32 @@
+{
+	"name": "coffic-tool",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "astro dev --port 8700",
+		"build": "astro build",
+		"preview": "pnpm build && wrangler pages dev ./dist"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.6",
+		"daisyui": "^5.3.7",
+		"typescript": "5.8.3",
+		"wrangler": "^4.43.0"
+	},
+	"packageManager": "pnpm@9.0.0",
+	"dependencies": {
+		"@astrojs/cloudflare": "^12.6.10",
+		"@astrojs/mdx": "^4.3.7",
+		"@astrojs/vue": "^5.1.1",
+		"@coffic/cosy-content": "^0.2.27",
+		"@coffic/cosy-ui": "^0.9.74",
+		"@tailwindcss/vite": "^4.1.15",
+		"@vueuse/core": "^13.9.0",
+		"agents": "^0.0.109",
+		"astro": "^5.14.7",
+		"@coffic/image": "workspace:*",
+		"tailwindcss": "^4.1.15",
+		"vue": "^3.5.22",
+		"zod": "^4.1.12"
+	}
+}

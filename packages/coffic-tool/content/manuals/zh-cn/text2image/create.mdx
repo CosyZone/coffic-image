@@ -1,0 +1,37 @@
+---
+title: '文生图'
+description: '主要的文本转图像功能，支持多种模型和参数配置'
+folder: false
+order: 1
+---
+
+# 文生图
+
+根据提供的文字描述生成图片，支持自定义尺寸、数量和模型选择。
+
+```typescript
+text2image({
+  prompt: "一只可爱的小猫坐在花园里，阳光明媚，花朵盛开",
+  size: "1024*1024",
+  n: 1,
+  model: "wan2.2-t2i-plus"
+})
+```text
+
+## 参数说明
+
+| 参数 | 类型 | 必需 | 描述 |
+|------|------|------|------|
+| `prompt` | string | ✅ | 文字描述，最多800个字符 |
+| `size` | string | ❌ | 图像尺寸，默认1024*1024，支持[512, 1440]像素范围 |
+| `n` | number | ❌ | 生成图片数量，默认1 |
+| `model` | string | ❌ | 使用的模型，默认wan2.2-t2i-plus |
+| `dashScopeApiKey` | string | ❌ | DashScope API密钥 |
+
+## 使用流程
+
+1. **提交生成任务**: 使用 `text2image` 工具
+2. **获得任务ID**: API返回任务标识
+3. **等待执行**: 通常需要15秒左右
+4. **查询状态**: 使用 `text2image_status` 工具
+5. **获取结果**: 任务完成后获得生成的图片URL

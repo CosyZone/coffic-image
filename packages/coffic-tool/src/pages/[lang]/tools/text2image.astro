@@ -1,0 +1,52 @@
+---
+export const prerender = false;
+
+import DemoLayout from '@/layouts/DemoLayout.astro';
+import Text2ImageTool from '@/components/text2image/Text2ImageTool.vue';
+import { text2image } from '@coffic/image';
+import { Container, Heading } from '@coffic/cosy-ui';
+
+// 获取当前语言
+const { lang } = Astro.params;
+const currentLang = lang || 'zh-cn';
+
+// 页面标题
+const title = currentLang === 'zh-cn' ? '文本转图像工具' : 'Text to Image Tool';
+
+// 获取文生图模型列表
+const models = text2image.text2imageModels;
+
+export const getStaticPaths = async () => {
+  return [
+    {
+      params: { lang: 'zh-cn' },
+    },
+    {
+      params: { lang: 'en' },
+    },
+  ];
+};
+---
+
+<DemoLayout title={title} showSidebar={false} showTOC={false}>
+  <Container>
+    <Heading level={2} align="center">
+      {lang === 'zh-cn' ? '文本转图像工具' : 'Text to Image Tool'}
+    </Heading>
+    <p>
+      {
+        lang === 'zh-cn'
+          ? '使用 AI 将文字描述转换为精美的图像'
+          : 'Convert text descriptions into beautiful images using AI'
+      }
+    </p>
+
+    <!-- 文生图工具组件 -->
+    <Text2ImageTool
+      client:idle
+      client:only="vue"
+      models={models}
+      lang={currentLang}
+    />
+  </Container>
+</DemoLayout>

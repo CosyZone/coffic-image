@@ -1,0 +1,47 @@
+---
+title: '任务状态'
+description: '查询文生图任务的执行状态和结果'
+folder: false
+order: 3
+---
+
+# 任务状态
+
+```typescript
+// 查询任务状态
+text2image_status({
+  task_id: "task_1234567890"
+})
+```text
+
+## 参数说明
+
+| 参数 | 类型 | 必需 | 描述 |
+|------|------|------|------|
+| `task_id` | string | ✅ | 文生图任务的任务ID |
+| `dashScopeApiKey` | string | ❌ | DashScope API密钥 |
+
+## 返回结果示例
+
+### 成功状态
+```json
+{
+  "status": "SUCCEEDED",
+  "task_id": "task_1234567890",
+  "result": {
+    "images": [
+      "https://example.com/generated_image_1.jpg",
+      "https://example.com/generated_image_2.jpg"
+    ]
+  }
+}
+```text
+
+### 失败状态
+```json
+{
+  "status": "FAILED",
+  "task_id": "task_1234567890",
+  "error": "图片生成失败：提示词包含不当内容"
+}
+```text

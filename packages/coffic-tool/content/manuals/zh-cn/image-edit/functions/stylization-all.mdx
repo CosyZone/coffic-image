@@ -1,0 +1,47 @@
+---
+title: '整体风格化'
+folder: false
+order: 1
+---
+
+# 整体风格化
+
+import { CodeExample } from '@coffic/cosy-ui';
+
+
+## 功能描述
+
+整体风格化会改变整张图片的视觉风格，包括色彩、纹理、笔触等，但保持图片的基本内容和结构不变。
+
+## 使用方法
+
+### 使用图片URL
+```typescript
+imageedit({
+  imageUrl: "https://example.com/image.jpg",
+  prompt: "转换成法国绘本风格",
+  function: "stylization_all",
+  dashScopeApiKey: "your_api_key_here"
+})
+```text
+
+### 使用Base64图片数据
+```typescript
+imageedit({
+  imageUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=",
+  prompt: "转换成法国绘本风格",
+  function: "stylization_all",
+  dashScopeApiKey: "your_api_key_here"
+})
+```text
+
+## 参数说明
+
+| 参数 | 类型 | 必需 | 描述 |
+|------|------|------|------|
+| `imageUrl` | string | ✅ | 需要编辑的图片，支持：<br/>• 图片URL (如: "https://example.com/image.jpg")<br/>• Base64数据 (如: "data:image/jpeg;base64,/9j/4AAQSkZJR...") |
+| `prompt` | string | ✅ | 风格描述，如"法国绘本风格"、"油画风格"等 |
+| `function` | string | ❌ | 固定为"stylization_all" |
+| `n` | number | ❌ | 生成图片数量，默认1 |
+| `model` | string | ❌ | 使用的模型，默认wanx2.1-imageedit |
+| `dashScopeApiKey` | string | ✅ | DashScope API密钥，用于调用阿里云图像编辑API |

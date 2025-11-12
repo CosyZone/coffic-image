@@ -1,0 +1,27 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "coffic-tool",
+	"main": "./dist/_worker.js/index.js",
+	"compatibility_date": "2025-03-10",
+	"compatibility_flags": ["nodejs_compat"],
+	"vars": {
+		"DASHSCOPE_API_KEY": "your-api-key-here"
+	},
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"routes": [
+		{
+			"pattern": "tool.coffic.cn",
+			"custom_domain": true
+		}
+	]
+}
