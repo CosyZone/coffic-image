@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/publish.yaml"
-      - "packages/coffic-image/**"
+      - "src/**"
 
 jobs:
   build-and-publish:
@@ -30,9 +30,7 @@ jobs:
           version: 9
 
       - name: Install dependencies
-        run: |
-          pnpm install
-          cd packages/coffic-image && pnpm install
+        run: pnpm install
 
       - name: Configure Git
         run: |
@@ -40,13 +38,11 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Build
-        run: |
-          cd packages/coffic-image
+        run: pnpm build
 
       - name: Bump version
         id: version
         run: |
-          cd packages/coffic-image
           # 获取当前版本号
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           # 直接用Node.js脚本修改版本号
@@ -64,7 +60,6 @@ jobs:
 
       - name: Commit changes
         run: |
-          cd packages/coffic-image
           git pull
           git add package.json
           git commit -m "🎨 Chore: bump version to ${{ steps.version.outputs.new_version }}"
@@ -86,7 +81,6 @@ jobs:
 
       - name: Publish to npm
         run: |
-          cd packages/coffic-image
           pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
